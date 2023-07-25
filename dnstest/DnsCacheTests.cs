@@ -3,34 +3,33 @@ using System.Text;
 using System.Linq;
 using Xunit;
 
-namespace DnsTest
+namespace DnsTest;
+
+using Dns;
+
+public class DnsCacheTests
 {
-    using Dns;
+    [Fact]
+    public void Test1() {
+        Dns.Contracts.IDnsCache cache = new Dns.DnsCache();
+        var invalidKeyResult = cache.Get("invalidTestKey");
+        Xunit.Assert.Null(invalidKeyResult);
+    }
 
-    public class DnsCacheTests
-    {
-        [Fact]
-        public void Test1() {
-            Dns.Contracts.IDnsCache cache = new Dns.DnsCache();
-            var invalidKeyResult = cache.Get("invalidTestKey");
-            Xunit.Assert.Null(invalidKeyResult);
-        }
+    [Fact]
+    public void Test2() {
+        Dns.Contracts.IDnsCache cache = new Dns.DnsCache();
 
-        [Fact]
-        public void Test2() {
-            Dns.Contracts.IDnsCache cache = new Dns.DnsCache();
+        string key = "sampleCacheKey";
+        byte[] data = Encoding.ASCII.GetBytes("test");
+        Int32 ttl = 10;
 
-            string key = "sampleCacheKey";
-            byte[] data = Encoding.ASCII.GetBytes("test");
-            Int32 ttl = 10;
+        cache.Set(key, data, ttl);
+        var result = cache.Get(key);
 
-            cache.Set(key, data, ttl);
-            var result = cache.Get(key);
+        Xunit.Assert.True(data.SequenceEqual(result));
 
-            Xunit.Assert.True(data.SequenceEqual(result));
-
-            var invalidKeyResult = cache.Get("invalidTestKey");
-            Xunit.Assert.Null(invalidKeyResult);
-        }
+        var invalidKeyResult = cache.Get("invalidTestKey");
+        Xunit.Assert.Null(invalidKeyResult);
     }
 }

@@ -4,16 +4,15 @@
 // // // </copyright>
 // // //-------------------------------------------------------------------------------------------------
 
-namespace Dns
-{
-    using System.Net;
+namespace Dns;
 
-    public class ZoneRecord
-    {
-        public string Host;
-        public ResourceClass Class = ResourceClass.IN;
-        public ResourceType Type = ResourceType.A;
-        public IPAddress[] Addresses;
-        public int Count;
-    }
+using System.Net;
+
+public class ZoneRecord
+{
+    public string Host;
+    public ResourceClass Class = ResourceClass.IN;
+    public ResourceType Type = ResourceType.A;
+    public IPAddress[] Addresses;
+    public int Count;
 }

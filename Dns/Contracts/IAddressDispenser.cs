@@ -4,15 +4,14 @@
 // // // </copyright>
 // // //-------------------------------------------------------------------------------------------------
 
-namespace Dns.Contracts
+namespace Dns.Contracts;
+
+using System.Collections.Generic;
+using System.Net;
+
+public interface IAddressDispenser : IHtmlDump
 {
-    using System.Collections.Generic;
-    using System.Net;
+    string HostName { get; }
 
-    public interface IAddressDispenser : IHtmlDump
-    {
-        string HostName { get; }
-
-        IEnumerable<IPAddress> GetAddresses();
-    }
+    IEnumerable<IPAddress> GetAddresses();
 }

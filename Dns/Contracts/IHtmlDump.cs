@@ -4,12 +4,11 @@
 // // // </copyright>
 // // //-------------------------------------------------------------------------------------------------
 
-namespace Dns.Contracts
-{
-    using System.IO;
+namespace Dns.Contracts;
 
-    public interface IHtmlDump
-    {
-        void DumpHtml(TextWriter writer);
-    }
+using System.IO;
+
+public interface IHtmlDump
+{
+    void DumpHtml(TextWriter writer);
 }

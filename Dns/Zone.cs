@@ -4,20 +4,19 @@
 // // // </copyright>
 // // //-------------------------------------------------------------------------------------------------
 
-namespace Dns
+namespace Dns;
+
+using System.Collections.Generic;
+
+public class Zone : List<ZoneRecord>
 {
-    using System.Collections.Generic;
+    public string Suffix { get; set; }
 
-    public class Zone : List<ZoneRecord>
+    public uint Serial { get; set; }
+
+    public void Initialize(IEnumerable<ZoneRecord> nameRecords)
     {
-        public string Suffix { get; set; }
-
-        public uint Serial { get; set; }
-
-        public void Initialize(IEnumerable<ZoneRecord> nameRecords)
-        {
-            this.Clear();
-            this.AddRange(nameRecords);
-        }
+        this.Clear();
+        this.AddRange(nameRecords);
     }
 }

@@ -4,14 +4,13 @@
 // // // </copyright>
 // // //-------------------------------------------------------------------------------------------------
 
-namespace Dns
+namespace Dns;
+
+public enum ResourceClass : ushort
 {
-    public enum ResourceClass : ushort
-    {
-        None = 0,
-        IN = 1,
-        CS = 2,
-        CH = 3,
-        HS = 4
-    }
+    None = 0,
+    IN = 1,
+    CS = 2,
+    CH = 3,
+    HS = 4
 }

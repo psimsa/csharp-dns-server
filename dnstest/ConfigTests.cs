@@ -5,22 +5,21 @@ using Microsoft.Extensions.Configuration.Json;
 
 using Dns.Config;
 
-namespace DnsTest
-{
-    public class ConfigTests
-    {
-        public ConfigTests()
-        {
-        }
+namespace DnsTest;
 
-        [Fact]
-        public void LoadConfig()
+public class ConfigTests
+{
+    public ConfigTests()
+    {
+    }
+
+    [Fact]
+    public void LoadConfig()
+    {
+        var jsonSource = new JsonConfigurationSource
         {
-            var jsonSource = new JsonConfigurationSource
-            {
-                Path = "./Data/appsettings.json"
-            };
-            var jsonConfig = new JsonConfigurationProvider(jsonSource);
-        }
+            Path = "./Data/appsettings.json"
+        };
+        var jsonConfig = new JsonConfigurationProvider(jsonSource);
     }
 }

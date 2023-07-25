@@ -4,27 +4,26 @@
 // // // </copyright>
 // // //-------------------------------------------------------------------------------------------------
 
-namespace Dns
+namespace Dns;
+
+using System;
+using System.IO;
+
+public class Question
 {
-    using System;
-    using System.IO;
+    public ResourceClass Class;
+    public string Name;
+    public ResourceType Type;
 
-    public class Question
+    public void WriteToStream(Stream stream)
     {
-        public ResourceClass Class;
-        public string Name;
-        public ResourceType Type;
+        byte[] name = this.Name.GetResourceBytes();
+        stream.Write(name, 0, name.Length);
 
-        public void WriteToStream(Stream stream)
-        {
-            byte[] name = this.Name.GetResourceBytes();
-            stream.Write(name, 0, name.Length);
+        // Type
+        stream.Write(BitConverter.GetBytes(((ushort) (this.Type)).SwapEndian()), 0, 2);
 
-            // Type
-            stream.Write(BitConverter.GetBytes(((ushort) (this.Type)).SwapEndian()), 0, 2);
-
-            // Class
-            stream.Write(BitConverter.GetBytes(((ushort) this.Class).SwapEndian()), 0, 2);
-        }
+        // Class
+        stream.Write(BitConverter.GetBytes(((ushort) this.Class).SwapEndian()), 0, 2);
     }
 }

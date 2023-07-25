@@ -4,17 +4,16 @@
 // // // </copyright>
 // // //-------------------------------------------------------------------------------------------------
 
-namespace Dns.Contracts
+namespace Dns.Contracts;
+
+using System.Net;
+
+/// <summary>Provides domain name resolver capabilities</summary>
+internal interface IDnsResolver : IHtmlDump
 {
-    using System.Net;
+    string GetZoneName();
 
-    /// <summary>Provides domain name resolver capabilities</summary>
-    internal interface IDnsResolver : IHtmlDump
-    {
-        string GetZoneName();
+    uint GetZoneSerial();
 
-        uint GetZoneSerial();
-
-        bool TryGetHostEntry(string hostname, ResourceClass resClass, ResourceType resType, out IPHostEntry entry);
-    }
+    bool TryGetHostEntry(string hostname, ResourceClass resClass, ResourceType resType, out IPHostEntry entry);
 }

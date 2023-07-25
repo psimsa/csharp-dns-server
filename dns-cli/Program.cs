@@ -1,37 +1,35 @@
 ﻿using System;
 using System.Threading;
 
-namespace DnsCli
+namespace DnsCli;
+
+/// <summary>Stub program that enables DNS Server to run from the command line</summary>
+class Program
 {
-    /// <summary>Stub program that enables DNS Server to run from the command line</summary>
+    private static CancellationTokenSource cts = new CancellationTokenSource();
+    private static ManualResetEvent _exitTimeout = new ManualResetEvent(false);
 
-    class Program
+    public static void Main(string[] args)
     {
-        private static CancellationTokenSource cts = new CancellationTokenSource();
-        private static ManualResetEvent _exitTimeout = new ManualResetEvent(false);
+        Console.CancelKeyPress += Console_CancelKeyPress;
 
-        public static void Main(string[] args)
+        Console.WriteLine("DNS Server - Console Mode");
+
+        if(args.Length == 0)
         {
-            Console.CancelKeyPress += Console_CancelKeyPress;
-
-            Console.WriteLine("DNS Server - Console Mode");
-
-            if(args.Length == 0)
-            {
-                args = new string[] { "./appsettings.json" };
-            }
-
-            Dns.Program.Run(args[0], cts.Token);
-
-            _exitTimeout.Set();
-
+            args = new string[] { "./appsettings.json" };
         }
 
-        private static void Console_CancelKeyPress(object sender, ConsoleCancelEventArgs e)
-        {
-            Console.WriteLine("\r\nShutting Down");
-            cts.Cancel();
-            _exitTimeout.WaitOne(5000);
-        }
+        Dns.Program.Run(args[0], cts.Token);
+
+        _exitTimeout.Set();
+
+    }
+
+    private static void Console_CancelKeyPress(object sender, ConsoleCancelEventArgs e)
+    {
+        Console.WriteLine("\r\nShutting Down");
+        cts.Cancel();
+        _exitTimeout.WaitOne(5000);
     }
 }

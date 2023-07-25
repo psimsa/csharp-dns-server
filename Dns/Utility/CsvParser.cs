@@ -4,48 +4,48 @@
 // // </copyright>
 // //-------------------------------------------------------------------------------------------------
 
-namespace Dns.Utility
+namespace Dns.Utility;
+
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+
+/// <summary>Parses CSV files</summary>
+public class CsvParser
 {
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Linq;
+    private static readonly char[] CSVDELIMITER = new[] {','};
+    private static readonly char[] COLONDELIMITER = new[] {':'};
 
-    /// <summary>Parses CSV files</summary>
-    public class CsvParser
+    private readonly string _filePath;
+
+    private string _currentLine;
+    private string[] _fields;
+
+    private CsvParser()
     {
-        private static readonly char[] CSVDELIMITER = new[] {','};
-        private static readonly char[] COLONDELIMITER = new[] {':'};
+    }
 
-        private readonly string _filePath;
+    private CsvParser(string filePath)
+    {
+        this._filePath = filePath;
+    }
 
-        private string _currentLine;
-        private string[] _fields;
+    /// <summary>List of fields detected in CSV file</summary>
+    public IEnumerable<string> Fields
+    {
+        get { return this._fields; }
+    }
 
-        private CsvParser()
+    /// <summary>
+    ///   Returns enumerable collection of rows
+    /// </summary>
+    public IEnumerable<CsvRow> Rows
+    {
+        get
         {
-        }
-
-        private CsvParser(string filePath)
-        {
-            this._filePath = filePath;
-        }
-
-        /// <summary>List of fields detected in CSV file</summary>
-        public IEnumerable<string> Fields
-        {
-            get { return this._fields; }
-        }
-
-        /// <summary>
-        ///   Returns enumerable collection of rows
-        /// </summary>
-        public IEnumerable<CsvRow> Rows
-        {
-            get
-            {
-                using (FileStream stream = new FileStream(this._filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete))
-                using (StreamReader csvReader = new StreamReader(stream))
+            using (FileStream stream = new FileStream(this._filePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite | FileShare.Delete))
+            using (StreamReader csvReader = new StreamReader(stream))
                 while (true)
                 {
                     if (csvReader.Peek() < 0)
@@ -83,28 +83,27 @@ namespace Dns.Utility
                         yield return new CsvRow(this._fields, this._currentLine.Split(CSVDELIMITER));
                     }
                 }
-            }
         }
+    }
 
-        /// <summary>
-        ///   Create instance of CSV Parser
-        /// </summary>
-        /// <param name="filePath"> Path of file to parse </param>
-        /// <returns> CSV Parser instance </returns>
-        public static CsvParser Create(string filePath)
+    /// <summary>
+    ///   Create instance of CSV Parser
+    /// </summary>
+    /// <param name="filePath"> Path of file to parse </param>
+    /// <returns> CSV Parser instance </returns>
+    public static CsvParser Create(string filePath)
+    {
+        if (filePath == null)
         {
-            if (filePath == null)
-            {
-                throw new ArgumentNullException("filePath");
-            }
-
-            if (!File.Exists(filePath))
-            {
-                throw new FileNotFoundException("File Not Found", filePath);
-            }
-
-            CsvParser result = new CsvParser(filePath);
-            return result;
+            throw new ArgumentNullException("filePath");
         }
+
+        if (!File.Exists(filePath))
+        {
+            throw new FileNotFoundException("File Not Found", filePath);
+        }
+
+        CsvParser result = new CsvParser(filePath);
+        return result;
     }
 }

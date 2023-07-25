@@ -4,6 +4,7 @@
     <OutputType>Library</OutputType>
     <TargetFramework>netstandard2.1</TargetFramework>
     <RootNamespace>Dns</RootNamespace>
+	  <LangVersion>latest</LangVersion>
     <CodePage>65001</CodePage>
   </PropertyGroup>
   
